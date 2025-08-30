@@ -1,0 +1,19 @@
+{
+  "Tao Te Ching": "texts/tao_te_ching.txt",
+  "Meditations (Marcus Aurelius)": "texts/meditations.txt",
+  "The Art of War": "texts/art_of_war.txt",
+  "Corpus Hermeticum": "texts/corpus_hermeticum.txt",
+  "Emerald Tablet": "texts/emerald_tablet.txt",
+  "Kybalion": "texts/kybalion.txt",
+  "Bible": "texts/bible.txt",
+  "Bhagavad Gita": "texts/bhagavad_gita.txt",
+  "Quran": "texts/quran.txt",
+  "Dhammapada": "texts/dhammapada.txt",
+  "Upanishads": "texts/upanishads.txt",
+  "Nag Hammadi": "texts/nag_hammadi.txt",
+  "Enuma Elish": "texts/enuma_elish.txt",
+  "Egyptian Book of the Dead": "texts/book_of_the_dead.txt",
+  "Zend Avesta": "texts/zend_avesta.txt",
+  "Gnostic Gospels": "texts/gnostic_gospels.txt",
+  "Epic of Gilgamesh": "texts/gilgamesh.txt"
+}
