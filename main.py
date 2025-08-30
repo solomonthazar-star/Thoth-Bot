@@ -2,6 +2,8 @@ import discord
 import os
 import json
 import random
+import requests
+from bs4 import BeautifulSoup
 
 TOKEN = os.getenv("TOKEN")
 
@@ -9,18 +11,24 @@ intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
 
-# Load text index
-with open("texts/texts_index.json", "r", encoding="utf-8") as f:
+# Load archive index (title → url)
+with open("texts_index.json", "r", encoding="utf-8") as f:
     text_index = json.load(f)
 
-# Helper to load passages
-def load_passages(path):
-    with open(path, "r", encoding="utf-8") as f:
-        lines = [line.strip() for line in f if line.strip()]
-    return lines
+# Cache to avoid refetching
+cache = {}
 
-# Preload all texts
-books = {title: load_passages(path) for title, path in text_index.items()}
+def fetch_passages(title, url):
+    if title in cache:
+        return cache[title]
+
+    response = requests.get(url)
+    response.raise_for_status()
+
+    soup = BeautifulSoup(response.text, "html.parser")
+    paragraphs = [p.get_text().strip() for p in soup.find_all("p") if p.get_text().strip()]
+    cache[title] = paragraphs
+    return paragraphs
 
 @client.event
 async def on_ready():
@@ -35,31 +43,34 @@ async def on_message(message):
 
     # Random passage from any book
     if content == "!quote":
-        book = random.choice(list(books.keys()))
-        passage = random.choice(books[book])
-        await message.channel.send(f"📖 **{book}**\n{passage}")
+        title, url = random.choice(list(text_index.items()))
+        passages = fetch_passages(title, url)
+        passage = random.choice(passages)
+        await message.channel.send(passage)
 
     # Specific book
     elif content.startswith("!quote "):
         query = content.replace("!quote ", "").strip().lower()
-        for book in books:
-            if query in book.lower():
-                passage = random.choice(books[book])
-                await message.channel.send(f"📖 **{book}**\n{passage}")
+        for title, url in text_index.items():
+            if query in title.lower():
+                passages = fetch_passages(title, url)
+                passage = random.choice(passages)
+                await message.channel.send(passage)
                 return
-        await message.channel.send("❌ Book not found.")
+        await message.channel.send("No matching text found.")
 
-    # Search all books
+    # Search across all texts
     elif content.startswith("!search "):
         query = content.replace("!search ", "").strip().lower()
         results = []
-        for book, lines in books.items():
-            matches = [line for line in lines if query in line.lower()]
+        for title, url in text_index.items():
+            passages = fetch_passages(title, url)
+            matches = [p for p in passages if query in p.lower()]
             if matches:
-                results.append(f"**{book}**: {random.choice(matches)}")
+                results.append(random.choice(matches))
         if results:
             await message.channel.send("\n\n".join(results[:5]))
         else:
-            await message.channel.send("❌ No results found.")
+            await message.channel.send("No results found.")
 
 client.run(TOKEN)
