@@ -1,74 +1,77 @@
 import discord
+import os
 import random
 import requests
 from bs4 import BeautifulSoup
 import json
-import os
 
-# Load texts index
-with open("texts_index.json", "r") as f:
-    texts_index = json.load(f)
+TOKEN = os.getenv("DISCORD_TOKEN")
 
 intents = discord.Intents.default()
-bot = discord.Client(intents=intents)
+intents.message_content = True
+client = discord.Client(intents=intents)
 
-@bot.event
+# Load the expanded texts index
+with open("texts_index.json", "r", encoding="utf-8") as f:
+    texts_index = json.load(f)
+
+def fetch_random_quote(url):
+    """Fetches a random passage from a text URL."""
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        # Extract paragraphs or other text containers
+        paragraphs = soup.find_all(["p", "div", "blockquote", "span"])
+        clean_passages = [p.get_text(strip=True) for p in paragraphs if len(p.get_text(strip=True)) > 100]
+
+        if not clean_passages:
+            return "⚠️ No readable passages found."
+
+        quote = random.choice(clean_passages)
+
+        # Clip very long passages
+        if len(quote) > 1000:
+            quote = quote[:1000] + "..."
+
+        return quote
+    except Exception as e:
+        print(f"Error fetching from {url}: {e}")
+        return "⚠️ Could not retrieve a passage at this time."
+
+@client.event
 async def on_ready():
-    print(f"✅ Logged in as {bot.user}")
+    print(f"✅ Logged in as {client.user}")
 
-def fetch_random_quote(url: str) -> str:
-    """Fetch and return a random passage from a text URL."""
-    r = requests.get(url, timeout=10)
-    r.raise_for_status()
-    soup = BeautifulSoup(r.text, "html.parser")
-
-    # Collect paragraphs with text
-    paragraphs = [p.get_text(strip=True) for p in soup.find_all("p") if p.get_text(strip=True)]
-    if not paragraphs:
-        return "..."
-
-    quote = random.choice(paragraphs)
-
-    # Clip overly long passages
-    if len(quote) > 1000:
-        quote = quote[:1000] + "..."
-
-    return quote
-
-@bot.event
+@client.event
 async def on_message(message):
-    if message.author == bot.user:
+    if message.author.bot:
         return
 
     if message.content.startswith("!quote"):
         args = message.content.split(" ", 1)
 
-        # Random from all texts
+        # Random passage from any text
         if len(args) == 1:
-            book, url = random.choice(list(texts_index.items()))
-            try:
-                quote = fetch_random_quote(url)
-                await message.channel.send(quote)
-            except Exception as e:
-                print(f"⚠️ Error fetching {book}: {e}")
-                await message.channel.send("Silence falls where words should be...")
+            book = random.choice(texts_index)
+            quote = fetch_random_quote(book["url"])
+            await message.channel.send(quote)
+            return
 
-        # Search specific text by keyword
-        else:
-            keyword = args[1].lower()
-            matches = {k: v for k, v in texts_index.items() if keyword in k.lower()}
+        # Specific text search by keyword
+        keyword = args[1].lower()
+        matches = [
+            entry for entry in texts_index
+            if keyword in entry["title"].lower() or keyword in " ".join(entry["aliases"]).lower()
+        ]
 
-            if not matches:
-                await message.channel.send("No such text found in the library.")
-                return
+        if not matches:
+            await message.channel.send("⚠️ No matching text found.")
+            return
 
-            book, url = random.choice(list(matches.items()))
-            try:
-                quote = fetch_random_quote(url)
-                await message.channel.send(quote)
-            except Exception as e:
-                print(f"⚠️ Error fetching {book}: {e}")
-                await message.channel.send("Silence falls where words should be...")
+        book = random.choice(matches)
+        quote = fetch_random_quote(book["url"])
+        await message.channel.send(quote)
 
-# Run bot
-bot.run(os.getenv("DISCORD_TOKEN"))
+client.run(TOKEN)
