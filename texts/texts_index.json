@@ -1,33 +1,157 @@
-{
-    "Meditations - Marcus Aurelius": "https://classics.mit.edu/Antoninus/meditations.html",
-    "The Republic - Plato": "https://classics.mit.edu/Plato/republic.html",
-    "Symposium - Plato": "https://classics.mit.edu/Plato/symposium.html",
-    "Tao Te Ching - Laozi": "https://www.sacred-texts.com/tao/taote.htm",
-    "The Bhagavad Gita": "https://www.sacred-texts.com/hin/gita/index.htm",
-    "The Bible - King James Version": "https://www.gutenberg.org/files/10/10-h/10-h.htm",
-    "The Quran": "https://www.sacred-texts.com/isl/quran/index.htm",
-    "The Torah (Pentateuch)": "https://www.sacred-texts.com/bib/tan/index.htm",
-    "The Dhammapada - Buddha": "https://www.sacred-texts.com/bud/sbe10/index.htm",
-    "Upanishads": "https://www.sacred-texts.com/hin/sbe01/index.htm",
-    "The Art of War - Sun Tzu": "https://www.gutenberg.org/files/17405/17405-h/17405-h.htm",
-    "Paradise Lost - John Milton": "https://www.gutenberg.org/files/20/20-h/20-h.htm",
-    "The Divine Comedy - Dante Alighieri": "https://www.gutenberg.org/files/8800/8800-h/8800-h.htm",
-    "The Corpus Hermeticum": "https://www.sacred-texts.com/chr/herm/hermes1.htm",
-    "The Kybalion": "https://www.sacred-texts.com/eso/kyb/index.htm",
-    "Nag Hammadi Library - Gospel of Thomas": "https://www.gnosis.org/naghamm/gosthom.html",
-    "Nag Hammadi - Gospel of Philip": "https://www.gnosis.org/naghamm/gop.html",
-    "Nag Hammadi - Apocryphon of John": "https://www.gnosis.org/naghamm/apocjn.html",
-    "Enneads - Plotinus": "https://www.sacred-texts.com/cla/plotenn/index.htm",
-    "Confucian Analects": "https://www.sacred-texts.com/cfu/conf1.htm",
-    "The Book of Five Rings - Miyamoto Musashi": "https://www.sacred-texts.com/bud/musashi/index.htm",
-    "Egyptian Book of the Dead": "https://www.sacred-texts.com/egy/ebod/index.htm",
-    "The Zohar (Selections)": "https://www.sacred-texts.com/jud/zdm/index.htm",
-    "The Talmud (Selections)": "https://www.sacred-texts.com/jud/talmud.htm",
-    "Avesta (Zoroastrian Scriptures)": "https://www.sacred-texts.com/zor/index.htm",
-    "The Popol Vuh (Mayan Myth)": "https://www.sacred-texts.com/nam/pvuheng.htm",
-    "The Kalevala (Finnish Myth)": "https://www.sacred-texts.com/neu/kalevala/index.htm",
-    "Eddas (Norse Myth)": "https://www.sacred-texts.com/neu/poe/index.htm",
-    "The Book of Enoch": "https://www.sacred-texts.com/bib/boe/index.htm",
-    "The Pistis Sophia (Gnostic Text)": "https://www.sacred-texts.com/gno/pistis.htm",
-    "Chaldean Oracles": "https://www.sacred-texts.com/cla/co/index.htm"
-}
+[
+  {
+    "title": "Meditations - Marcus Aurelius",
+    "url": "https://classics.mit.edu/Antoninus/meditations.html",
+    "aliases": ["meditations", "marcus aurelius", "stoic"]
+  },
+  {
+    "title": "The Republic - Plato",
+    "url": "https://classics.mit.edu/Plato/republic.html",
+    "aliases": ["plato", "republic"]
+  },
+  {
+    "title": "Symposium - Plato",
+    "url": "https://classics.mit.edu/Plato/symposium.html",
+    "aliases": ["plato", "symposium"]
+  },
+  {
+    "title": "Nicomachean Ethics - Aristotle",
+    "url": "https://classics.mit.edu/Aristotle/nicomachaen.html",
+    "aliases": ["aristotle", "ethics", "nicomachean"]
+  },
+  {
+    "title": "The Tao Te Ching - Laozi",
+    "url": "https://www.sacred-texts.com/tao/taote.htm",
+    "aliases": ["tao", "tao te ching", "laozi"]
+  },
+  {
+    "title": "The Bhagavad Gita",
+    "url": "https://www.gutenberg.org/files/2388/2388-h/2388-h.htm",
+    "aliases": ["gita", "bhagavad", "bhagavad gita"]
+  },
+  {
+    "title": "The Bible (KJV)",
+    "url": "https://www.gutenberg.org/files/10/10-h/10-h.htm",
+    "aliases": ["bible", "kjv", "scripture"]
+  },
+  {
+    "title": "The Quran (Yusuf Ali translation)",
+    "url": "https://www.sacred-texts.com/isl/yaq/index.htm",
+    "aliases": ["quran", "koran", "islam"]
+  },
+  {
+    "title": "The Upanishads",
+    "url": "https://www.sacred-texts.com/hin/sbe01/sbe01003.htm",
+    "aliases": ["upanishads", "veda", "hindu"]
+  },
+  {
+    "title": "Dhammapada - Buddha",
+    "url": "https://www.sacred-texts.com/bud/sbe10/index.htm",
+    "aliases": ["dhammapada", "buddha", "buddhism"]
+  },
+  {
+    "title": "The Art of War - Sun Tzu",
+    "url": "https://www.gutenberg.org/files/132/132-h/132-h.htm",
+    "aliases": ["art of war", "sun tzu", "warfare"]
+  },
+  {
+    "title": "Paradise Lost - John Milton",
+    "url": "https://www.gutenberg.org/files/20/20-h/20-h.htm",
+    "aliases": ["paradise lost", "milton", "epic poem"]
+  },
+  {
+    "title": "The Divine Comedy - Dante Alighieri",
+    "url": "https://www.gutenberg.org/files/8800/8800-h/8800-h.htm",
+    "aliases": ["divine comedy", "dante", "inferno", "purgatorio", "paradiso"]
+  },
+  {
+    "title": "Corpus Hermeticum",
+    "url": "https://www.sacred-texts.com/chr/herm/hermes1.htm",
+    "aliases": ["hermeticum", "hermes", "thoth"]
+  },
+  {
+    "title": "The Kybalion",
+    "url": "https://www.sacred-texts.com/eso/kyb/index.htm",
+    "aliases": ["kybalion", "hermetic", "three initiates"]
+  },
+  {
+    "title": "Nag Hammadi Library - Gospel of Thomas",
+    "url": "https://www.gnosis.org/naghamm/gosthom.html",
+    "aliases": ["gospel of thomas", "gnostic", "nag hammadi"]
+  },
+  {
+    "title": "Nag Hammadi - Gospel of Philip",
+    "url": "https://www.gnosis.org/naghamm/gop.html",
+    "aliases": ["gospel of philip", "gnostic", "nag hammadi"]
+  },
+  {
+    "title": "Nag Hammadi - Apocryphon of John",
+    "url": "https://www.gnosis.org/naghamm/apocjn.html",
+    "aliases": ["apocryphon of john", "gnostic", "nag hammadi"]
+  },
+  {
+    "title": "Enneads - Plotinus",
+    "url": "https://www.sacred-texts.com/cla/plotenn/index.htm",
+    "aliases": ["enneads", "plotinus", "neoplatonism"]
+  },
+  {
+    "title": "Confucian Analects",
+    "url": "https://www.sacred-texts.com/cfu/conf1.htm",
+    "aliases": ["analects", "confucius", "confucian"]
+  },
+  {
+    "title": "The Book of Five Rings - Miyamoto Musashi",
+    "url": "https://www.sacred-texts.com/bud/musashi/index.htm",
+    "aliases": ["five rings", "musashi", "martial arts"]
+  },
+  {
+    "title": "Egyptian Book of the Dead",
+    "url": "https://www.sacred-texts.com/egy/ebod/index.htm",
+    "aliases": ["egyptian book of the dead", "ebod", "egypt"]
+  },
+  {
+    "title": "The Zohar (Selections)",
+    "url": "https://www.sacred-texts.com/jud/zdm/index.htm",
+    "aliases": ["zohar", "kabbalah", "mysticism"]
+  },
+  {
+    "title": "The Talmud (Selections)",
+    "url": "https://www.sacred-texts.com/jud/talmud.htm",
+    "aliases": ["talmud", "judaism", "rabbinic"]
+  },
+  {
+    "title": "Avesta (Zoroastrian Scriptures)",
+    "url": "https://www.sacred-texts.com/zor/index.htm",
+    "aliases": ["avesta", "zoroastrian", "ahura mazda"]
+  },
+  {
+    "title": "Popol Vuh (Mayan Myth)",
+    "url": "https://www.sacred-texts.com/nam/pvuheng.htm",
+    "aliases": ["popol vuh", "mayan", "myth"]
+  },
+  {
+    "title": "The Kalevala (Finnish Myth)",
+    "url": "https://www.sacred-texts.com/neu/kalevala/index.htm",
+    "aliases": ["kalevala", "finnish", "myth"]
+  },
+  {
+    "title": "Eddas (Norse Myth)",
+    "url": "https://www.sacred-texts.com/neu/poe/index.htm",
+    "aliases": ["eddas", "norse", "odin", "thor"]
+  },
+  {
+    "title": "The Book of Enoch",
+    "url": "https://www.sacred-texts.com/bib/boe/index.htm",
+    "aliases": ["book of enoch", "enoch", "fallen angels"]
+  },
+  {
+    "title": "The Pistis Sophia (Gnostic Text)",
+    "url": "https://www.sacred-texts.com/gno/pistis.htm",
+    "aliases": ["pistis sophia", "gnostic", "nag hammadi"]
+  },
+  {
+    "title": "Chaldean Oracles",
+    "url": "https://www.sacred-texts.com/cla/co/index.htm",
+    "aliases": ["chaldean oracles", "oracles", "hermetic"]
+  }
+]
