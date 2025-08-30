@@ -1,76 +1,51 @@
 import discord
-import os
-import json
 import random
 import requests
 from bs4 import BeautifulSoup
+import json
+import os
 
-TOKEN = os.getenv("TOKEN")
+# Load texts index
+with open("texts_index.json", "r") as f:
+    texts_index = json.load(f)
 
 intents = discord.Intents.default()
-intents.message_content = True
-client = discord.Client(intents=intents)
+bot = discord.Client(intents=intents)
 
-# Load archive index (title → url)
-with open("texts_index.json", "r", encoding="utf-8") as f:
-    text_index = json.load(f)
-
-# Cache to avoid refetching
-cache = {}
-
-def fetch_passages(title, url):
-    if title in cache:
-        return cache[title]
-
-    response = requests.get(url)
-    response.raise_for_status()
-
-    soup = BeautifulSoup(response.text, "html.parser")
-    paragraphs = [p.get_text().strip() for p in soup.find_all("p") if p.get_text().strip()]
-    cache[title] = paragraphs
-    return paragraphs
-
-@client.event
+@bot.event
 async def on_ready():
-    print(f"✅ Logged in as {client.user}")
+    print(f"✅ Logged in as {bot.user}")
 
-@client.event
+@bot.event
 async def on_message(message):
-    if message.author.bot:
+    if message.author == bot.user:
         return
 
-    content = message.content.strip()
+    if message.content.startswith("!quote"):
+        # Pick random text
+        book, url = random.choice(list(texts_index.items()))
+        try:
+            r = requests.get(url, timeout=10)
+            r.raise_for_status()
+            soup = BeautifulSoup(r.text, "html.parser")
 
-    # Random passage from any book
-    if content == "!quote":
-        title, url = random.choice(list(text_index.items()))
-        passages = fetch_passages(title, url)
-        passage = random.choice(passages)
-        await message.channel.send(passage)
-
-    # Specific book
-    elif content.startswith("!quote "):
-        query = content.replace("!quote ", "").strip().lower()
-        for title, url in text_index.items():
-            if query in title.lower():
-                passages = fetch_passages(title, url)
-                passage = random.choice(passages)
-                await message.channel.send(passage)
+            # Extract visible text
+            paragraphs = [p.get_text(strip=True) for p in soup.find_all("p") if p.get_text(strip=True)]
+            if not paragraphs:
+                await message.channel.send("...")
                 return
-        await message.channel.send("No matching text found.")
 
-    # Search across all texts
-    elif content.startswith("!search "):
-        query = content.replace("!search ", "").strip().lower()
-        results = []
-        for title, url in text_index.items():
-            passages = fetch_passages(title, url)
-            matches = [p for p in passages if query in p.lower()]
-            if matches:
-                results.append(random.choice(matches))
-        if results:
-            await message.channel.send("\n\n".join(results[:5]))
-        else:
-            await message.channel.send("No results found.")
+            quote = random.choice(paragraphs)
 
-client.run(TOKEN)
+            # Clip overly long passages
+            if len(quote) > 1000:
+                quote = quote[:1000] + "..."
+
+            await message.channel.send(quote)
+
+        except Exception as e:
+            print(f"⚠️ Error fetching {book}: {e}")
+            await message.channel.send("Silence falls where words should be...")
+
+# Run bot
+bot.run(os.getenv("DISCORD_TOKEN"))
